@@ -1,0 +1,21 @@
+<!--pages/letter/letterList.wxml-->
+<view class='container'>
+    <view class='letter_type'>
+        <text class='letter_type_text' bindtouchstart='getLetterType'>{{letterType}}</text>
+        <image class='img_select' src='../../images/select.png' bindtouchstart='getLetterType'></image>
+        <image class='img_edit' src='../../images/edit.png' bindtouchstart='toWriteLetterPage'></image>
+    </view>
+    <swiper class='letters' previous-margin='90rpx' next-margin='40rpx' current='{{current}}' bindchange='onSlideChange'>
+        <swiper-item wx:for="{{letters}}" wx:key="unique">
+            <view class='paper'>
+                <view class='content'>
+                    {{item.content}}
+                </view>
+                <view class='select'>选自：{{item.selected}}</view>
+            </view>
+        </swiper-item>
+    </swiper>
+
+    <image src='/images/readBtn.png' class='readBtn' bindtap='readLetter'></image>
+    <text class='read_btn_text'>读这封信给好友</text>
+</view>

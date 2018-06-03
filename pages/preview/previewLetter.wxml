@@ -1,0 +1,14 @@
+<!--pages/preview/previewLetter.wxml-->
+<view class='contain' style='height: {{windowHeight}}rpx'>
+    <scroll-view class='letter_scroll' scroll-y='true' scroll-with-animation='true'>
+        <view class='receiver' wx:if="{{receiver}}"><text>{{receiver}}</text></view>
+        <view class='content'>
+            <text>{{content}}</text>
+        </view>
+        <view class='sender'>
+            <text>{{sender}}
+            {{date}}</text>
+        </view>
+    </scroll-view>
+    <button type='primary' class='recordBtn'>开始录音</button>
+</view>

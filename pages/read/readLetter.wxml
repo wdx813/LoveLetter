@@ -1,0 +1,17 @@
+<!--pages/read/readLetter.wxml-->
+<view class='contain' style='height: {{windowHeight}}rpx'>
+    <scroll-view class='letter_scroll' scroll-y='true' scroll-with-animation='true'>
+        <view class='receiver'>
+            <input placeholder='输入收信人' value=''></input>
+        </view>
+        <view class='content'>
+            <text>{{content}}</text>
+        </view>
+        <view class='selected'>选自：{{selected}}</view>
+        <view class='sender'>
+            <input placeholder='署名' value=''></input>
+            <text>{{date}}</text>
+        </view>
+    </scroll-view>
+    <button type='primary' class='recordBtn'>开始录音</button>
+</view>

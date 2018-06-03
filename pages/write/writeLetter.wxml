@@ -1,0 +1,20 @@
+<!--pages/write/writeLetter.wxml-->
+<view class='contain'>
+    <form bindsubmit='submitLetter'>
+    <view class='view_recevier'>
+        <input type='text' confirm-type='done' name='receiver' placeholder='输入收信人' value='{{receiver}}'></input>
+    </view>
+    <view class='line'></view>
+    <view class='view_content'>
+        <textarea maxlength='200' name='content' placeholder='输入信内容（200字以内）' bindinput='getContentLength' value=''></textarea>
+    </view>
+    <view class='wordNum'>{{wordNum}}</view>
+    <view class='sender'>
+        <input type='text' confirm-type='done' name='sender' placeholder='署名' placeholder-style='text-align:right' cursor='100' value=''></input>
+    </view>
+    <button class='circle' form-type='submit' disabled='{{isDisable}}'>
+        <view wx:if="{{isDisable}}"><text class='preview'>预览信</text></view>
+        <view wx:else><text style='font-size:32rpx;color:#1aac19'>预览信</text></view>
+    </button>
+    </form>
+</view>

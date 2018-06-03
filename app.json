@@ -1,0 +1,39 @@
+{
+    "pages": [
+        "pages/letter/letterList",
+        "pages/read/readLetter",
+        "pages/preview/previewLetter",
+        "pages/write/writeLetter",
+        "pages/recommend/recommend",
+        "pages/user/myLetter",
+        "pages/index/index",
+        "pages/logs/logs"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#e6e6e6",
+        "navigationBarTitleText": "爱之信",
+        "navigationBarTextStyle": "black",
+        "enablePullDownRefresh": false
+    },
+    "tabBar": {
+        "borderStyle": "white",
+        "selectedColor": "#000000",
+        "color": "#000000",
+        "backgroundColor": "#eeeeee",
+        "list": [
+            {
+                "pagePath": "pages/letter/letterList",
+                "text": "读信",
+                "iconPath": "images/note.png",
+                "selectedIconPath": "images/note-actived.png"
+            },
+            {
+                "pagePath": "pages/user/myLetter",
+                "text": "我",
+                "iconPath": "images/profile.png",
+                "selectedIconPath": "images/profile-actived.png"
+            }
+        ]
+    }
+}
