@@ -1,7 +1,8 @@
 {
     "pages": [
-        "pages/letter/letterList",
         "pages/read/readLetter",
+        "pages/letter/letterList",
+        
         "pages/preview/previewLetter",
         "pages/write/writeLetter",
         "pages/recommend/recommend",

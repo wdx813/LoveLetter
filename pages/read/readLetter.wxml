@@ -13,5 +13,14 @@
             <text>{{date}}</text>
         </view>
     </scroll-view>
-    <button type='primary' class='recordBtn'>开始录音</button>
+    <view wx:if="{{tempFilePath}}" class='voice' bindtap='playOrStopVoice'>
+        <text>{{duration}}</text>
+    </view>
+    <view wx:if="{{isRecording}}" style='text-align: center; position: relative; bottom: -20%;'>
+        <image style='height: 30rpx; width: 256rpx;' src='/images/record_status.gif'></image>
+        <view style='font-size:36rpx;color:#1aac19;height: 50rpx; margin-top: 15rpx;' bindtap='stopRecord'>结束录音</view>
+    </view>
+    <view class='view-recordbtn' wx:else>
+        <button type='primary' class='recordBtn' bindtap='startRecord'>开始录音</button>
+    </view>
 </view>
