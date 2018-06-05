@@ -53,3 +53,19 @@
     border-radius: 5px;
     margin: 10rpx 95rpx 0rpx;
 }
+
+.cancelBtn {
+  margin-left: 110rpx;
+}
+
+.submitBtn {
+  margin-left: 260rpx;
+}
+
+.cancelTxt {
+  margin-left: 130rpx;
+}
+
+.submitTxt {
+  margin-left: 285rpx;
+}

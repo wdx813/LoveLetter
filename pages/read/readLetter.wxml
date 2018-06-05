@@ -13,7 +13,7 @@
             <text>{{date}}</text>
         </view>
     </scroll-view>
-    <view wx:if="{{recordStatus == 0}}" class='voice' bindtap='playOrStopVoice'>
+    <view wx:if="{{recordStatus == 2}}" class='voice' bindtap='playOrStopVoice'>
         <image style='width: 50px; height: 44px;' src='/images/laba.png'></image>
         <text style='position: relative;top: -20rpx; left: 50rpx;'>{{duration}}</text>
     </view>
@@ -24,7 +24,10 @@
     <view wx:if="{{recordStatus == 0}}" class='view-recordbtn'>
         <button type='primary' class='recordBtn' bindtap='startRecord'>开始录音</button>
     </view>
-    <view>
-        <button type='primary' class='recordBtn' bindtap='startRecord'>发布</button>
+    <view wx:if="{{recordStatus == 2}}" style='margin-top:150rpx;'>
+        <icon type='cancel' size='50' class='cancelBtn'></icon>
+        <icon type='success' size='45' class='submitBtn'></icon>
+        <text class='cancelTxt'>重录</text>
+        <text class='submitTxt'>发送</text>
     </view>
 </view>
