@@ -13,7 +13,6 @@ const options = {
 const recordManager = wx.getRecorderManager()
 //音频播放管理器
 const innerAudioContext = wx.createInnerAudioContext()
-
 Page({
 
     /**
@@ -26,8 +25,8 @@ Page({
         sender: '',
         date: util.formatDate(new Date()),
         windowHeight: app.globalData.windowHeight * 2 + 26 + 80,
-        isRecording: false,
-        tempFilePath: 'aa',
+        recordStatus: 0, // 0：未录音 1：正在录音 2：录音结束
+        tempFilePath: '1',
         tempFileStatus: false,
         duration: '0″',
         frameBuffer: null
@@ -42,6 +41,10 @@ Page({
         //       content: letter.content,
         //       selected: letter.selected
         //   })
+        // 注册录音的回调事件
+        this.recordManagerCallBack()
+        // 注册音频播放的回调事件
+        this.innerAudioContextCallBack()
     },
 
     /**
@@ -54,15 +57,16 @@ Page({
                 if (!res.authSetting['scope.record']) {
                     wx: wx.authorize({
                         scope: 'scope.record',
-                        success: function (res) { },
-                        fail: function (res) { },
+                        success: function (res) {
+                            console.log('点击了确认')
+                        },
+                        fail: function (res) {
+                            console.log('点击了取消')
+                        },
                         complete: function (res) { },
                     })
                 } else {
                     recordManager.start(options)
-                    recordManager.onStart(() => {
-                        self.setData({ isRecording: true })
-                    })
                 }
             },
             fail: function (res) { },
@@ -74,47 +78,68 @@ Page({
      * 结束录音
      */
     stopRecord: function () {
-        var self = this
-
         recordManager.stop()
+    },
+
+    /**
+     * 录音的回调事件
+     */
+    recordManagerCallBack: function() {
+        var self = this
+        recordManager.onStart(() => {
+            self.setData({ recordStatus: 1 })
+        })
 
         recordManager.onStop(res => {
             console.log(res)
-            self.setData({ 
-                isRecording: false,
+            self.setData({
+                recordStatus: 2,
                 tempFilePath: res.tempFilePath,
-                duration: res.duration
+                duration: parseInt(res.duration/1000) + '″'
             })
         })
 
         recordManager.onFrameRecorded((res) => {
             console.log('frameBuffer.byteLength', res.frameBuffer.byteLength)
-            self.setData({ frameBuffer: res.frameBuffer})
+            self.setData({ frameBuffer: res.frameBuffer })
         })
-
     },
 
     /**
      * 播放、停止音频
      */
     playOrStopVoice: function () {
-        if(this.data.tempFileStatus) {
+        if (this.data.tempFileStatus) {
             innerAudioContext.stop()
-            this.setData({tempFileStatus: false})
-            console.log('结束播放')
         } else {
-            innerAudioContext.autoplay = true
-            innerAudioContext.src = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
-            innerAudioContext.onPlay(() => {
-                console.log('开始播放')
-            })
-            innerAudioContext.onError((res) => {
-                console.log(res.errMsg)
-                console.log(res.errCode)
-            })
-            this.setData({ tempFileStatus: true })
+            innerAudioContext.obeyMuteSwitch = false
+            innerAudioContext.src = this.data.tempFilePath
+            innerAudioContext.play()
         }
     },
+
+    /**
+     * 音频播放的回调事件
+     */
+    innerAudioContextCallBack: function() {
+        var self = this
+        innerAudioContext.onPlay(() => {
+            console.log('开始播放')
+            self.setData({ tempFileStatus: true })
+        })
+        innerAudioContext.onStop(() => {
+            console.log('手动结束')
+            self.setData({ tempFileStatus: false })
+        })
+        innerAudioContext.onError((res) => {
+            console.log(res.errMsg)
+            console.log(res.errCode)
+        })
+        innerAudioContext.onEnded(() => {
+            console.log('自然结束')
+            self.setData({ tempFileStatus: false })
+        })
+    },    
 
     /**
      * 生命周期函数--监听页面初次渲染完成

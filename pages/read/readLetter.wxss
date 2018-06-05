@@ -52,5 +52,4 @@
     background-color: #fff;
     border-radius: 5px;
     margin: 10rpx 95rpx 0rpx;
-    text-align: center;
 }
