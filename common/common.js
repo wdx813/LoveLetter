@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.12.79:8080/LoveLetterServer"
+const baseUrl = "http://localhost:8080/LoveLetterServer"
 
 /**
  * 登录验证

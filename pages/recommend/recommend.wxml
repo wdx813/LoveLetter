@@ -1,2 +1,15 @@
 <!--pages/recommend/recommend.wxml-->
-<text>pages/recommend/recommend.wxml</text>
+<view class='contain'>
+    <view>
+        <image src='/images/letter.png' class='letterImg'></image>
+    </view>
+    <view style='display: flex;align-items: center;justify-content: center;'>
+        <image src='{{headimg}}' class='headimg'></image>
+        <text class='sender' decode='true'>&nbsp;{{sender}}</text>
+        <text wx:if="{{letterType == 3}}" decode='true'>&nbsp;&nbsp;致2008年的我</text>
+        <text wx:else> 给你读了一封信</text>
+    </view>
+    <view>
+        <button type='primary' class='lookBtn' lang='zh_CN' open-type="getUserInfo" bindgetuserinfo="getUserInfo">查看</button>
+    </view>
+</view>

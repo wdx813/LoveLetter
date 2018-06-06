@@ -53,8 +53,13 @@ Page({
      * 获取书信列表
      */
     getLetterList: function () {
+        wx:wx.showLoading({
+            title: '加载中...',
+            mask: true
+        })
         common.getLetterList("/letter/findLetters").then(res => {
             if(res.code == "E0000") {
+                wx:wx.hideLoading()
                 var letterList = []
                 letterList.push(res.data.friendLetters)
                 letterList.push(res.data.familyLetters)

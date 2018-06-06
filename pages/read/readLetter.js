@@ -36,11 +36,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        //   var letter = JSON.parse(options.letter)
-        //   this.setData({
-        //       content: letter.content,
-        //       selected: letter.selected
-        //   })
+        var letter = JSON.parse(options.letter)
+        this.setData({
+            content: letter.content,
+            selected: letter.selected
+        })
         // 注册录音的回调事件
         this.recordManagerCallBack()
         // 注册音频播放的回调事件
@@ -139,7 +139,24 @@ Page({
             console.log('自然结束')
             self.setData({ tempFileStatus: false })
         })
-    },    
+    }, 
+
+    /**
+     * 重录
+     */
+    reset: function () {
+        this.setData({
+            recordStatus: 0,
+            tempFilePath: ''
+        })
+    }, 
+
+    /**
+     * 提交
+     */
+    submit: function () {
+
+    },  
 
     /**
      * 生命周期函数--监听页面初次渲染完成

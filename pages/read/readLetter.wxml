@@ -25,8 +25,8 @@
         <button type='primary' class='recordBtn' bindtap='startRecord'>开始录音</button>
     </view>
     <view wx:if="{{recordStatus == 2}}" style='margin-top:150rpx;'>
-        <icon type='cancel' size='50' class='cancelBtn'></icon>
-        <icon type='success' size='45' class='submitBtn'></icon>
+        <icon type='cancel' size='50' class='cancelBtn' bindtap='reset'></icon>
+        <icon type='success' size='45' class='submitBtn' bindtap='submit'></icon>
         <text class='cancelTxt'>重录</text>
         <text class='submitTxt'>发送</text>
     </view>
