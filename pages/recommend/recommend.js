@@ -1,4 +1,5 @@
 // pages/recommend/recommend.js
+const common = require('../../common/common.js')
 var app = getApp()
 Page({
 
@@ -12,37 +13,49 @@ Page({
     },
 
     /**
-     * 查看书信
+     * 获取推荐书信
      */
-    onLook: function () {
-        wx:wx.getSetting({
-            success: function(res) {
-                if(!res.authSetting['scope.userInfo']) {
-                    wx.authorize({
-                        scope: 'scope.userInfo',
-                        success: function(res) {},
-                        fail: function(res) {},
-                        complete: function(res) {},
-                    })
-                }
-            },
-            fail: function(res) {},
-            complete: function(res) {},
+    getRecommendLetter: function () {
+        var userId = app.globalData.userInfo ? app.globalData.userInfo.id : 0
+        common.getRecommendLetter('/letter/recommend', userId).then(res => {
+            console.log(res)
         })
     },
 
     /**
-     * 获取用户信息
+     * 查看书信
      */
     getUserInfo: function (e) {
-        app.globalData.userInfo = e.detail.userInfo
+        if (e.detail.userInfo) {
+            if (!app.globalData.userInfo) {
+                var user = {
+                    openId: app.globalData.openid,
+                    nickname: e.detail.userInfo.nickName,
+                    gender: e.detail.userInfo.gender,
+                    avatar: e.detail.userInfo.avatarUrl
+                }
+                // 保存用户数据
+                common.saveUser('/user/save', user).then(res => {
+                    console.log(res)
+                    app.globalData.userInfo = res.data.userInfo
+                })
+            } else {
+
+            }
+        } else {
+            wx.showModal({
+                title: '授权失败',
+                content: '您已经拒绝爱之信使用您的用户信息，爱之信的功能将无法使用，如果您想继续使用，请允许爱之信使用您的用户信息',
+                showCancel: false
+            })
+        }
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.getRecommendLetter()
     },
 
     /**

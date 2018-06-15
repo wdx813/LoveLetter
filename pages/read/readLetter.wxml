@@ -2,14 +2,14 @@
 <view class='contain' style='height: {{windowHeight}}rpx'>
     <scroll-view class='letter_scroll' scroll-y='true' scroll-with-animation='true'>
         <view class='receiver'>
-            <input placeholder='输入收信人' value=''></input>
+            <input placeholder='输入收信人' value='{{receiver}}' bindinput='bindReceiverInput'></input>
         </view>
         <view class='content'>
             <text>{{content}}</text>
         </view>
         <view class='selected'>选自：{{selected}}</view>
         <view class='sender'>
-            <input placeholder='署名' value=''></input>
+            <input placeholder='署名' value='{{sender}}' bindinput='bindSenderInput'></input>
             <text>{{date}}</text>
         </view>
     </scroll-view>
@@ -25,9 +25,17 @@
         <button type='primary' class='recordBtn' bindtap='startRecord'>开始录音</button>
     </view>
     <view wx:if="{{recordStatus == 2}}" style='margin-top:150rpx;'>
-        <icon type='cancel' size='50' class='cancelBtn' bindtap='reset'></icon>
+        <icon type='cancel' size='50' class='resetBtn' bindtap='reset'></icon>
         <icon type='success' size='45' class='submitBtn' bindtap='submit'></icon>
         <text class='cancelTxt'>重录</text>
         <text class='submitTxt'>发送</text>
     </view>
+    
+    
+</view>
+<!-- 隐藏区域 -->
+<view class='share-view' wx:if="{{isShare}}" animation='{{animationData}}'>
+    <button open-type='share'>发送给朋友</button>
+    <button>生成卡片保存分享</button>
+    <button class='cancelBtn' bindtap='hideModel'>取消</button>
 </view>

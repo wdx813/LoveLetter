@@ -1,4 +1,5 @@
 // pages/read/readLetter.js
+const common = require('../../common/common.js')
 const util = require('../../utils/util.js')
 var app = getApp()
 //录音管理器
@@ -26,10 +27,25 @@ Page({
         date: util.formatDate(new Date()),
         windowHeight: app.globalData.windowHeight * 2 + 26 + 80,
         recordStatus: 0, // 0：未录音 1：正在录音 2：录音结束
-        tempFilePath: '1',
+        tempFilePath: '',
         tempFileStatus: false,
         duration: '0″',
-        frameBuffer: null
+        frameBuffer: null,
+        isShare: false,
+        animationData: {},
+        userLetterId: null
+    },
+
+    bindReceiverInput: function(e) {
+        this.setData({
+            receiver: e.detail.value
+        })
+    },
+
+    bindSenderInput: function (e) {
+        this.setData({
+            sender: e.detail.value
+        })
     },
 
     /**
@@ -45,6 +61,8 @@ Page({
         this.recordManagerCallBack()
         // 注册音频播放的回调事件
         this.innerAudioContextCallBack()
+        // 隐藏转发按钮
+        wx.hideShareMenu()
     },
 
     /**
@@ -100,7 +118,6 @@ Page({
         })
 
         recordManager.onFrameRecorded((res) => {
-            console.log('frameBuffer.byteLength', res.frameBuffer.byteLength)
             self.setData({ frameBuffer: res.frameBuffer })
         })
     },
@@ -155,8 +172,66 @@ Page({
      * 提交
      */
     submit: function () {
+        var self = this
+        var data = {
+            userId: app.globalData.userInfo.id,
+            receiver: this.data.receiver,
+            sender: this.data.sender,
+            content: this.data.content,
+            selected: this.data.selected
+        }
+        wx.showToast({
+            title: '发送中...',
+        })
+        common.uploadFile('/userLetter/save', data, this.data.tempFilePath).then(res => {
+            console.log(res)
+            if(res.data.code == 'E0000') {
+                wx.hideToast()
+                var animation = wx.createAnimation({
+                    duration: 500,
+                    timingFunction: 'ease'
+                })
 
-    },  
+                animation.translateY(143).step()
+
+                self.setData({
+                    animationData: animation.export(),
+                    isShare: true
+                })
+
+                setTimeout(function () {
+                    animation.translateY(0).step()
+                    self.setData({
+                        animationData: animation.export()
+                    })
+                }, 100)
+            }
+        })
+
+        
+
+    }, 
+
+    hideModel: function() {
+        var that = this;
+        var animation = wx.createAnimation({
+            duration: 1000,
+            timingFunction: 'ease'
+        })
+        that.animation = animation
+        animation.translateY(0).step()
+        that.setData({
+            animationData: animation.export()
+
+        })
+        setTimeout(function () {
+            animation.translateY(143).step()
+            that.setData({
+                animationData: animation.export(),
+                chooseSize: false
+            })
+        }, 100)
+    },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -200,10 +275,22 @@ Page({
 
     },
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
-
+    onShareAppMessage: function() {
+        var sender = this.data.sender ? this.data.sender : app.globalData.userInfo.nickname
+        var userLetter = {
+            avatar: app.globalData.userInfo.avatar,
+            receiver: this.data.receiver,
+            sender: sender,
+            content: this.data.content,
+            selected: this.data.selected,
+            
+        }
+        
+        return {
+            title: sender + ' 给你读了一封信',
+            path: '/page/recommend?userLetter = ',
+            imageUrl: ''
+        }
     }
+    
 })

@@ -54,7 +54,7 @@
     margin: 10rpx 95rpx 0rpx;
 }
 
-.cancelBtn {
+.resetBtn {
   margin-left: 110rpx;
 }
 
@@ -68,4 +68,23 @@
 
 .submitTxt {
   margin-left: 285rpx;
+}
+
+.share-view {
+    background-color: #f6f6f6;
+    position: absolute;
+    width: 100%;
+    bottom: 0rpx;
+}
+
+.share-view button {
+    background-color: #fff;
+}
+
+.share-view button::after {
+    border-radius: 0;
+}
+
+.cancelBtn {
+    margin-top: 10rpx;
 }
